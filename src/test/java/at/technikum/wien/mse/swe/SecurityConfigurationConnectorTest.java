@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
+import at.technikum.wien.mse.swe.connector.Connector;
+import at.technikum.wien.mse.swe.connector.ConnectorFactory;
 import org.junit.Test;
 
 import at.technikum.wien.mse.swe.connector.SecurityConfigurationConnectorImpl;
@@ -18,7 +20,7 @@ import at.technikum.wien.mse.swe.model.SecurityConfiguration;
  */
 public class SecurityConfigurationConnectorTest {
 
-    private final SecurityConfigurationConnector sut = new SecurityConfigurationConnectorImpl();
+    private final Connector<SecurityConfiguration> sut = new ConnectorFactory<SecurityConfiguration>().createConnectorForClass(SecurityConfiguration.class);
     private static final String FILENAME = "examples/SecurityConfiguration_AT0000937503.txt";
 
 
@@ -60,7 +62,9 @@ public class SecurityConfigurationConnectorTest {
         SecurityConfiguration configuration = sut.read(Paths.get(ClassLoader.getSystemResource(FILENAME).toURI()));
         assertNotNull("yearLowest not found", configuration.getYearLowest());
         assertEquals("EUR", configuration.getYearLowest().getCurrency());
-        assertEquals(BigDecimal.valueOf(29.60d), configuration.getYearLowest().getValue());
+        //the test failed because the precision was lower than after the change (lost a 0)
+        //assertEquals(BigDecimal.valueOf(29.60d), configuration.getYearLowest().getValue());
+        assertEquals(new BigDecimal("29.60"), configuration.getYearLowest().getValue());
     }
 
 }

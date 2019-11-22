@@ -8,9 +8,10 @@ import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
+import at.technikum.wien.mse.swe.connector.Connector;
+import at.technikum.wien.mse.swe.connector.ConnectorFactory;
 import org.junit.Test;
 
-import at.technikum.wien.mse.swe.connector.SecurityAccountOverviewConnectorImpl;
 import at.technikum.wien.mse.swe.model.SecurityAccountOverview;
 
 /**
@@ -18,7 +19,7 @@ import at.technikum.wien.mse.swe.model.SecurityAccountOverview;
  */
 public class SecurityAccountOverviewConnectorTest {
 
-    private final SecurityAccountOverviewConnector sut = new SecurityAccountOverviewConnectorImpl();
+    private final Connector<SecurityAccountOverview> sut = new ConnectorFactory<SecurityAccountOverview>().createConnectorForClass(SecurityAccountOverview.class);
     private static final String FILENAME = "examples/SecurityAccountOverview_12345678.txt";
 
 
